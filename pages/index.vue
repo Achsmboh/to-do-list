@@ -16,8 +16,12 @@
             aria-label="Default select example"
           >
             <option value="all" selected>All Categories</option>
-            <option v-for="(task, i) in task" :key="i" :value="task.categories">
-              {{ task.categories }}
+            <option
+              v-for="category in uniqueCategories"
+              :key="category"
+              :value="category"
+            >
+              {{ category }}
             </option>
           </select>
           <!-- Form input pencarian -->
@@ -55,29 +59,44 @@
           >Add Task</a
         >
         <div v-else class="add-card">
-          <div class="card mb-2">
-            <div class="card-body d-flex flex-column p-0">
-              <input
-                type="text"
-                placeholder="Title"
-                class="form-control border-0 mb-2"
-              />
-              <textarea
-                class="form-control border-0 small"
-                placeholder="Description"
-                rows="3"
-              ></textarea>
+          <form @submit.prevent="appendTask">
+            <div class="card mb-2">
+              <div class="card-body d-flex flex-column p-0">
+                <input
+                  v-model="newTask.title"
+                  type="text"
+                  placeholder="Title"
+                  class="form-control border-0 mb-2"
+                />
+                <textarea
+                  v-model="newTask.description"
+                  class="form-control border-0 small"
+                  placeholder="Description"
+                  rows="3"
+                ></textarea>
+              </div>
             </div>
-          </div>
-          <div class="button-wrapper d-flex">
-            <button class="btn btn-primary me-2">Save</button>
-            <button
-              class="btn btn-outline-secondary"
-              @click="isCreating = !isCreating"
+            <select
+              id="categories"
+              v-model="newTask.categories"
+              name=""
+              class="my-3 w-50"
             >
-              Cancel
-            </button>
-          </div>
+              <option disabled selected value="">Nothing selected</option>
+              <option value="Ringan">Ringan</option>
+              <option value="Sedang">Sedang</option>
+              <option value="Berat">Berat</option>
+            </select>
+            <div class="button-wrapper d-flex">
+              <button type="submit" class="btn btn-primary me-2">Save</button>
+              <button
+                class="btn btn-outline-secondary"
+                @click="isCreating = !isCreating"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -90,9 +109,6 @@ export default {
   components: {
     CardItem,
   },
-  // layouts(context) {
-  //   return 'custom'
-  // },
   data() {
     return {
       // Variabel penampung categories
@@ -123,9 +139,18 @@ export default {
           categories: 'Ringan',
         },
       ],
+      newTask: {
+        title: '',
+        description: '',
+        categories: '',
+      },
     }
   },
   computed: {
+    // mengambil kategori unik dari seluruh daftar task
+    uniqueCategories() {
+      return [...new Set(this.task.map((task) => task.categories))]
+    },
     resultQuery() {
       if (this.searchQuery && this.searchCategories === 'all') {
         return this.task.filter((item) => {
@@ -166,6 +191,33 @@ export default {
       } else {
         return this.task
       }
+    },
+  },
+  methods: {
+    appendTask() {
+      // Validasi input task sebelum ditambahkan
+      if (
+        this.newTask.title.trim() === '' ||
+        this.newTask.description.trim() === '' ||
+        this.newTask.categories.trim() === ''
+      ) {
+        return alert('Harap Isi Semua Field')
+      }
+
+      // Tambahkan task baru ke dalam array
+      this.task.push({
+        title: this.newTask.title,
+        description: this.newTask.description,
+        isDone: false,
+        categories: this.newTask.categories,
+      })
+
+      // Reset form input
+      this.newTask.title = ''
+      this.newTask.description = ''
+      this.newTask.categories = ''
+      // tutup form tambah task
+      this.isCreating = false
     },
   },
 }

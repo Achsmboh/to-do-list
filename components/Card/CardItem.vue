@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      'item-task d-flex align-items-start border-bottom pt-3 pb-4',
+      'item-task d-flex align-items-start border-bottom pt-3 pb-4 card my-1',
       isGrid ? 'col-12 col-md-6 col-lg-4' : 'col-12',
     ]"
   >
