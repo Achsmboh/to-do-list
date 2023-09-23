@@ -21,7 +21,9 @@
             >
           </li>
           <li class="nav-item">
-            <a href="/form" aria-current="page" class="nav-link active">Form</a>
+            <a href="/artikel" aria-current="page" class="nav-link active"
+              >Artikel</a
+            >
           </li>
         </ul>
       </div>
