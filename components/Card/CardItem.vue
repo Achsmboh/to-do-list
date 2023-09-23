@@ -19,9 +19,9 @@
         task.isDone ? 'text-decoration-line-through fst-italic' : '',
       ]"
     >
-      <div class="title-task mb1">
+      <nuxt-link class="title-task mb-1" :to="'app/detail/' + task.id">
         {{ task.title }}
-      </div>
+      </nuxt-link>
       <div>
         <p class="small">
           Categories : <span>{{ task.categories }}</span>
