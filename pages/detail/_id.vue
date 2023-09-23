@@ -3,7 +3,6 @@
     <div v-for="item in articles" :key="item.title">
       <div class="w-100 d-flex justify-content-center">
         <div v-if="item.title == paramId" :key="item.key" class="card w-50">
-          <div class="card-header">...</div>
           <img :src="item.img" :alt="item.img" class="card-img-top" />
           <div class="card-body">
             <h5 class="card-title">{{ item.title }}</h5>

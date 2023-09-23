@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>Artikel</h1>
-    <div class="list-task row gap-5">
+    <div class="d-flex justify-content-around flex-wrap gap-5">
       <CardArticle
         v-for="(article, i) in articles"
         :key="i"
